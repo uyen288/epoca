@@ -18,6 +18,7 @@ import {
   createId, dailyActivityCounts, fromLocalInputValue, journalStreak, localDateKey,
   toLocalInputValue, validateEvent, validateTask, withTaskStatus,
 } from './lib/domain'
+import logoMark from './assets/epoca-mark.png'
 import './App.css'
 
 type Page = 'dashboard' | 'todo' | 'kanban' | 'calendar' | 'journal' | 'spaces' | 'settings'
@@ -279,7 +280,7 @@ function App() {
       {mobileNavOpen && <button className="mobile-scrim" aria-label="Đóng menu" onClick={() => setMobileNavOpen(false)} />}
       <aside className={`sidebar ${mobileNavOpen ? 'sidebar-open' : ''}`}>
         <a className="brand" href="#/dashboard" onClick={(event) => { event.preventDefault(); navigate('dashboard') }}>
-          <span className="brand-mark">é</span><span className="brand-word">época</span>
+          <img className="brand-mark" src={logoMark} alt="" /><span className="brand-word">época</span>
         </a>
         <div className="sidebar-caption">KHÔNG GIAN CỦA BẠN</div>
         <nav className="main-nav" aria-label="Điều hướng chính">
