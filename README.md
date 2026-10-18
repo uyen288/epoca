@@ -25,6 +25,20 @@ npm run preview
 
 Web lưu dữ liệu trong **IndexedDB của trình duyệt hiện tại**. Xóa dữ liệu trang web/trình duyệt có thể làm mất dữ liệu; hãy xuất backup thường xuyên.
 
+## Cài época và dùng ngoại tuyến
+
+época là PWA. Trên Chrome/Edge, mở ứng dụng trên HTTPS (localhost được xem là an toàn khi phát triển), rồi dùng nút **Install época** trong thanh trên cùng hoặc chọn lệnh cài đặt của trình duyệt. Nút trong ứng dụng mở hướng dẫn thủ công nếu trình duyệt không hỗ trợ `beforeinstallprompt`; Safari trên iPhone/iPad dùng Chia sẻ → Thêm vào Màn hình chính. Firefox và các trình duyệt khác có thể không hỗ trợ cài ứng dụng.
+
+Để thử trên máy phát triển, chạy `npm run dev` và mở địa chỉ localhost. Để thử đúng app-shell/offline cache production:
+
+1. Chạy `npm run build`, sau đó `npm run preview` và mở địa chỉ localhost của preview trong Chrome/Edge.
+2. Tải ứng dụng thành công một lần, chờ service worker kích hoạt (DevTools → Application → Service Workers), rồi cài ứng dụng từ nút trên trang hoặc menu trình duyệt.
+3. Trong DevTools → Network, bật **Offline** rồi tải lại trang. App shell đã precache sẽ mở; dữ liệu cá nhân vẫn được đọc từ IndexedDB cục bộ. Tắt Offline để trở lại mạng.
+
+Service worker chỉ precache HTML, mã ứng dụng, stylesheet và tài sản tĩnh. Nó không lưu vào cache dữ liệu IndexedDB, thông tin cá nhân hay phản hồi API. Xuất backup trước khi xóa dữ liệu trang web vì thao tác đó xóa cả IndexedDB và cache.
+
+Production phải được phục vụ qua HTTPS để trình duyệt cho phép service worker và cài đặt PWA; Vercel cung cấp HTTPS cho domain triển khai. Với hosting tùy chỉnh, bật HTTPS/redirect HTTP sang HTTPS. Trình duyệt quyết định có hiển thị biểu tượng cài đặt gốc hay không; giao diện época không cố mô phỏng biểu tượng đó.
+
 ## Chạy và build desktop Windows
 
 ```powershell
@@ -55,7 +69,7 @@ Web và desktop là hai bản cài riêng: chúng **không tự đồng bộ** v
 - `src/App.tsx` và `src/App.css`: app shell, các màn hình theo khu vực và design system UI.
 - Desktop dùng Tauri 2 + SQL plugin. SQLite giữ một snapshot JSON trong bảng `app_state`; thao tác thay toàn bộ backup là một lần ghi nguyên tử. `schema_meta` và migration SQL được cấu hình ngay cả khi chưa có bảng nghiệp vụ riêng.
 - Giao diện được xây bằng CSS design system nhỏ và Tailwind CSS v4; kéo thả dùng HTML Drag and Drop API để tránh thêm thư viện cho MVP.
-- Web offline sau khi ứng dụng đã tải và mở; chưa cấu hình PWA/service worker.
+- Web có thể mở app shell offline sau lần tải thành công đầu tiên nhờ service worker; dữ liệu tiếp tục được lưu cục bộ trong IndexedDB.
 - Nhắc hạn task là trạng thái trong giao diện, không phải push notification khi ứng dụng đóng. Các dữ liệu vẫn được lưu cục bộ; không gửi nội dung ra dịch vụ ngoài.
 
 ## Kiểm thử

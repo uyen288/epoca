@@ -19,6 +19,7 @@ import {
   toLocalInputValue, validateEvent, validateTask, withTaskStatus,
 } from './lib/domain'
 import logoMark from './assets/epoca-mark.png'
+import PwaInstall from './PwaInstall'
 import './App.css'
 
 type Page = 'dashboard' | 'todo' | 'kanban' | 'calendar' | 'journal' | 'spaces' | 'settings'
@@ -303,6 +304,7 @@ function App() {
           <div className="breadcrumbs"><span>época</span><ChevronRight size={14} /><strong>{PAGE_TITLES[page]}</strong></div>
           <div className="topbar-actions">
             <label className="search-box"><Search size={17} /><input aria-label="Tìm công việc và ghi chú" placeholder="Tìm kiếm…" value={query} onChange={(event) => setQuery(event.target.value)} /><kbd>⌘ K</kbd></label>
+            <PwaInstall />
             <button className="button button-primary quick-add" onClick={() => openNewTask()}><Plus size={17} /><span>Tạo mới</span></button>
             <button className="avatar-button" aria-label="Mở nhật ký" onClick={() => navigate('journal')}>e</button>
           </div>
