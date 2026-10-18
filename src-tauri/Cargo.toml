@@ -1,0 +1,17 @@
+[package]
+name = "epoca"
+version = "0.1.0"
+description = "época — everything at a glance"
+authors = ["época"]
+edition = "2021"
+
+[lib]
+name = "epoca_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-sql = { version = "2", features = ["sqlite"] }
